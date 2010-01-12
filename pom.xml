@@ -30,6 +30,14 @@
       </dependency>
 
 
+      <!-- swank -->
+      <dependency>
+	<groupId>com.codestuffs.clojure</groupId>
+	<artifactId>swank-clojure</artifactId>
+	<version>1.0-SNAPSHOT</version>
+      </dependency>
+
+
       <!-- Begin compojure-related dependencies -->
       <dependency>
 	<groupId>org.clojure</groupId>
