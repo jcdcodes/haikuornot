@@ -40,12 +40,10 @@
 ;; now some cleanup
 (def letters (set (.split "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z" " ")))
 
-(def *syllables-for*
-     (into (into (into *syllables-for* 
-		       (map #(let [k % v 1] [k v]) letters))
-		 [["W" 3]])
-	   [[" " 0] ["" 0]]))
-
+(def *syllables-for* (into *syllables-for* (map #(let [k % v 1] [k v]) letters)))
+(def *syllables-for* (into *syllables-for* [["W" 3]]))
+(def *syllables-for* (into *syllables-for* [[" " 0] ["" 0]]))
+(println "got syllables")
 ;;
 ;; TODO: improve syllable counting
 ;; 0) Strip out punctuation wisely. (hyphens->two words; acronyms->letters; apostrophes->nothing)
@@ -59,7 +57,7 @@
 (def consonants (set/difference letters vowels))
 (defn to-cv
   [upword]
-  (apply str (map #(if (vowels (str %)) "v" "c") upword)))
+  (apply str (map #(if (vowels (str %)) "v" (if (consonants (str %)) "c" "")) upword)))
 (defn count-vowel-runs
   [vcword]
   (count (re-seq #"(^v|cv)" vcword)))
@@ -69,7 +67,7 @@
 
 (defn stemmer-guess-syllables
   [word]
-  (print "**")
+  ;(print "**")
   (let [s (Stemmer. (.toLowerCase word))]
     (+ (.countSyllables s) (.getDroppedSyllableCount s))))
 
@@ -80,9 +78,6 @@
   (let [v (*syllables-for* (.toUpperCase word))]
     (if v v (stemmer-guess-syllables word))))
 
-
-(doall (map #(println (str % ": " (to-syllables %)))
-  (seq (.split "Who didn't put the bhomp in the miami montpelier. pedomp? monkey monkeymonkey" " "))))
 
 ;;
 ;; Methods for breaking text up into guessable components
@@ -107,6 +102,7 @@
 ;;;;;;;;;;;;;;;;;;
 ;; tests follow ;;
 ;;;;;;;;;;;;;;;;;;
+(comment
 (print (list
 ;; Should be all false:
 (map haiku? '(
@@ -126,3 +122,5 @@
               "How much fucking wood/could a woodchuck chuck if a/woodchuck could chuck wood"
               ))
 ))
+)
+(print "LOADED syllables")

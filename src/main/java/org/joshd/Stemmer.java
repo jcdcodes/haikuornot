@@ -1,36 +1,48 @@
-/*
-
-   Porter stemmer in Java. The original paper is in
-
-       Porter, 1980, An algorithm for suffix stripping, Program, Vol. 14,
-       no. 3, pp 130-137,
-
-   See also http://www.tartarus.org/~martin/PorterStemmer
-
-   History:
-
-   Release 1
-
-   Bug 1 (reported by Gonzalo Parra 16/10/99) fixed as marked below.
-   The words 'aed', 'eed', 'oed' leave k at 'a' for step 3, and b[k-1]
-   is then out outside the bounds of b.
-
-   Release 2
-
-   Similarly,
-
-   Bug 2 (reported by Steve Dyrdahl 22/2/00) fixed as marked below.
-   'ion' by itself leaves j = -1 in the test for 'ion' in step 5, and
-   b[j] is then outside the bounds of b.
-
-   Release 3
-
-   Considerably revised 4/9/00 in the light of many helpful suggestions
-   from Brian Goetz of Quiotix Corporation (brian@quiotix.com).
-
-   Release 4
-
-*/
+/**
+ * The Porter stemmer in Java, modified to count syllables as they're
+ * dropped, and made more Java-idiomatic probably at the expense of
+ * speed.  Based on the (an) Java source by Martin Porter, whose site
+ * http://tartarus.org/~martin/PorterStemmer/ declares that:
+ *
+ *   "All these encodings of the algorithm can be used free of charge
+ *   for any purpose."
+ *
+ * which is obviously very generous.  Thanks, Dr. Porter!
+ *
+ * Original class-level commentary follows:
+ *
+ *
+ * Porter stemmer in Java. The original paper is in
+ *
+ *     Porter, 1980, An algorithm for suffix stripping, Program, Vol. 14,
+ *     no. 3, pp 130-137,
+ *
+ * See also http://www.tartarus.org/~martin/PorterStemmer
+ *
+ * History:
+ *
+ * Release 1
+ *
+ * Bug 1 (reported by Gonzalo Parra 16/10/99) fixed as marked below.
+ * The words 'aed', 'eed', 'oed' leave k at 'a' for step 3, and b[k-1]
+ * is then out outside the bounds of b.
+ *
+ * Release 2
+ *
+ * Similarly,
+ *
+ * Bug 2 (reported by Steve Dyrdahl 22/2/00) fixed as marked below.
+ * 'ion' by itself leaves j = -1 in the test for 'ion' in step 5, and
+ * b[j] is then outside the bounds of b.
+ *
+ * Release 3
+ *
+ * Considerably revised 4/9/00 in the light of many helpful suggestions
+ * from Brian Goetz of Quiotix Corporation (brian@quiotix.com).
+ *
+ * Release 4
+ *
+ */
 package org.joshd;
 
 import java.io.BufferedInputStream;
@@ -298,7 +310,7 @@ public class Stemmer
    /** step5() takes off -ant, -ence etc., in context <c>vcvc<v>. */
    private void step5()
    {
-      int dsc = 0;
+      int dsc = 0; // Dropped Syllable Count
       if (k == 0) return; /* for Bug 1 */ switch (buf[k-1])
        {  case 'a': if (ends("al")) { dsc = 1; break; } return;
           case 'c': if (ends("ance")) { dsc = 1; break; }
