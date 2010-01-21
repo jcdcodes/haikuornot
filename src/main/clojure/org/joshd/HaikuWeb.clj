@@ -64,9 +64,10 @@
 		   :value "type in a haiku/if you get the meter right/i will tell you so"}]
 	  [:br]
 	  [:input {:type "submit" :value "Check haiku-ness"}]]]
+	about
 	(recent-successes)
 	(recent-failures)
-	about))
+	))
 
 ;;note: i love my nerd man/even though he is a nerd/he is wicked cute
 
