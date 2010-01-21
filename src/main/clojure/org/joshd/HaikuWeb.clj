@@ -9,18 +9,32 @@
   [params]
   (let [candidate (params :candidate)
 	syllables (count-syllables candidate)
+	haiku-p (= syllables '(5 7 5))
 	lines (.split candidate "/")]
+    (org.joshd.history/observe-submission candidate haiku-p)
     (info (str "HC: " (into [] syllables) ": " candidate))
     (html [:div {:align "center"}
 	   [:p "You wrote:" [:blockquote [:pre candidate]] "and Haikubot says:"]
-	   (if (= syllables '(5 7 5))
-	     [:div {:style "color:green;font-size:200%;font-weight:bold"} [:h1 "It's a haiku!"]]
-	     [:div {:style "color:red;background-color:black;font-size:200%;font-weight:bold"} [:h1 "Not a haiku"]])
+	   (if haiku-p
+	     [:div {:style "color:green;font-size:200%;font-weight:bold"} [:h1 "It's a haiku."]]
+	     [:div {:style "color:red;background-color:black;font-size:200%;font-weight:bold"} [:h1 "Not a haiku."]])
 	   [:table {:cellspacing 1 :cellpadding 5 :border "1px green"}
 	    (map (fn [x] [:tr [:td (first x)] [:td (second x)]])
 		 (map (fn [a b] [a b]) syllables lines))]
-	   [:p {:style "font-size:150%"} [:a {:href "/count"} "Try another"]]])))
+	   [:p {:style "font-size:150%"} [:a {:href "/"} "Try another"]]])))
 
+
+(defn recent-successes
+  []
+  (html
+  [:h3 "Recent haiku"]
+  (into [:ul] (map (fn [x] [:li [:pre x]]) @org.joshd.history/*recent-successes*))))
+
+(defn recent-failures
+  []
+  (html
+  [:h3 "Recent failure"]
+  (into [:ul] (map (fn [x] [:li [:pre x]]) @org.joshd.history/*recent-failures*))))
 
 (def about [:div [:h3 "What is this?"] 
 
@@ -50,14 +64,15 @@
 		   :value "type in a haiku/if you get the meter right/i will tell you so"}]
 	  [:br]
 	  [:input {:type "submit" :value "Check haiku-ness"}]]]
-	 about))
+	(recent-successes)
+	(recent-failures)
+	about))
 
 ;;note: i love my nerd man/even though he is a nerd/he is wicked cute
 
 (defroutes haiku-web
   (GET "/foo*" (html [:h1 "FOOOOOOOOOOOOO"]))
   (GET "/about*" (about params))
-  (GET "/count" (haiku-entry-form))
   (GET "/" (haiku-entry-form))
   (POST "/count" (generate-report-for params))
   (ANY "*" (html [:h1 "Visualize org.joshd.HaikuWeb in 5-7-5."]))
