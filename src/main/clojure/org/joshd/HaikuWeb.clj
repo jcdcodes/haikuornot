@@ -1,6 +1,7 @@
 (ns org.joshd.HaikuWeb
   (:use compojure)
   (:use org.joshd.syllables)
+  (:use org.joshd.history)
   (:use clojure.contrib.logging)
   (:gen-class
    :extends javax.servlet.http.HttpServlet))
