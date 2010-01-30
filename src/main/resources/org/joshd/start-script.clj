@@ -21,7 +21,7 @@
 (let [request-log-handler (org.mortbay.jetty.handler.RequestLogHandler.)
       log (org.mortbay.jetty.NCSARequestLog.)]
   (.setRequestLog request-log-handler log)
-  (.setFilename log "/Users/jdaghlian/Desktop/yyyy_mm_dd.request.log")
+  (.setFilename log "logs/yyyy_mm_dd.request.log")
   (.setRetainDays log 365)
   (.setAppend log true)
   (.setExtended log true)
