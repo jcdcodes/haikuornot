@@ -8,7 +8,7 @@
 
 (defn generate-report-for
   [params]
-  (let [candidate (params :candidate)
+  (let [candidate (sanitize-html (params :candidate))
 	syllables (count-syllables candidate)
 	haiku-p (= syllables '(5 7 5))
 	lines (.split candidate "/")]
@@ -24,6 +24,12 @@
 		 (map (fn [a b] [a b]) syllables lines))]
 	   [:p {:style "font-size:150%"} [:a {:href "/"} "Try another"]]])))
 
+(def *chr* {\< "&lt;" \> "&gt;" \& "&amp;"})
+(defn sanitize-html
+  [raw-text]
+  (apply str (map #(let [c (*chr* %)]
+		     (if (nil? c) % c))
+		  raw-text)))
 
 (defn recent-successes
   []
