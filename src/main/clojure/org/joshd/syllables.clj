@@ -30,20 +30,10 @@
   [lines]
   (into {} (map #(let [k (word-in-line %) v (count-syllables-in-line %)] [k v]) lines)))
 
-(def *syllables-for* (let
-  [cmudict (slurp "src/main/resources/org/joshd/cmudict.0.7a.txt")
-   lines (line-seq (BufferedReader. (StringReader. cmudict)))
-   word-lines (filter #(re-find (re-pattern "^[A-Z].*") %) lines)
-   the-map (map-words-to-syllable-counts word-lines)]
-  the-map))
 
 ;; now some cleanup
 (def letters (set (.split "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z" " ")))
 
-(def *syllables-for* (into *syllables-for* (map #(let [k % v 1] [k v]) letters)))
-(def *syllables-for* (into *syllables-for* [["W" 3]]))
-(def *syllables-for* (into *syllables-for* [[" " 0] ["" 0]]))
-(println "got syllables")
 ;;
 ;; TODO: improve syllable counting
 ;; 0) Strip out punctuation wisely. (hyphens->two words; acronyms->letters; apostrophes->nothing)
@@ -55,6 +45,24 @@
 ;;
 (def vowels (set ["A" "E" "I" "O" "U"]))
 (def consonants (set/difference letters vowels))
+
+(def *syllables-for* {})
+(defn get-syllables-for
+  [text]
+  (if (nil? *syllables-for*)
+    (do
+      (def *syllables-for* (let
+        [cmudict (slurp "src/main/resources/org/joshd/cmudict.0.7a.txt")
+	 lines (line-seq (BufferedReader. (StringReader. cmudict)))
+	 word-lines (filter #(re-find (re-pattern "^[A-Z].*") %) lines)
+	 the-map (map-words-to-syllable-counts word-lines)]
+	the-map))
+      (def *syllables-for* (into *syllables-for* (map #(let [k % v 1] [k v]) letters)))
+      (def *syllables-for* (into *syllables-for* [["W" 3]]))
+      (def *syllables-for* (into *syllables-for* [[" " 0] ["" 0]]))
+      (println "got syllables")))
+  (*syllables-for* text))
+
 (defn to-cv
   [upword]
   (apply str (map #(if (vowels (str %)) "v" (if (consonants (str %)) "c" "")) upword)))
@@ -75,7 +83,7 @@
   "This is the meat of the word->syllable mapping.  It makes no attempt to guess
      when it doesn't have an explicit match, but should."
   [word]
-  (let [v (*syllables-for* (.toUpperCase word))]
+  (let [v (get-syllables-for (.toUpperCase word))]
     (if v v (stemmer-guess-syllables word))))
 
 
