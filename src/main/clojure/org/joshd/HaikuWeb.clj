@@ -6,6 +6,14 @@
   (:gen-class
    :extends javax.servlet.http.HttpServlet))
 
+(def *chr* {\< "&lt;" \> "&gt;" \& "&amp;"})
+(defn sanitize-html
+  [raw-text]
+  (apply str (map #(let [c (*chr* %)]
+		     (if (nil? c) % c))
+		  raw-text)))
+
+
 (defn generate-report-for
   [params]
   (let [candidate (sanitize-html (params :candidate))
@@ -23,13 +31,6 @@
 	    (map (fn [x] [:tr [:td (first x)] [:td (second x)]])
 		 (map (fn [a b] [a b]) syllables lines))]
 	   [:p {:style "font-size:150%"} [:a {:href "/"} "Try another"]]])))
-
-(def *chr* {\< "&lt;" \> "&gt;" \& "&amp;"})
-(defn sanitize-html
-  [raw-text]
-  (apply str (map #(let [c (*chr* %)]
-		     (if (nil? c) % c))
-		  raw-text)))
 
 (defn recent-successes
   []
