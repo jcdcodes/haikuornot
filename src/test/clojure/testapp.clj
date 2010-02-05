@@ -6,5 +6,9 @@
   ;; (:use clojure.test)
 )
 
+(println)
+(println "NO TESTS AT THE MOMENT" )
+(println)
+
 ;; (deftest ...)
 

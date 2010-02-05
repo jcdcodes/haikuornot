@@ -14,7 +14,13 @@
 		  raw-text)))
 
 
-(defn generate-report-for
+(defn html-document
+  [title & body]
+  (html [:head [:title title]
+	 [:style "div { border: 1px dotted red; } p { border: 1px solid pink;} h1 { border: 1px dashed blue; } h3 {border: 1px dashed green; }"]]
+	[:body body]))
+
+(defn generate-report-page
   [params]
   (let [candidate (sanitize-html (params :candidate))
 	syllables (count-syllables candidate)
@@ -22,7 +28,8 @@
 	lines (.split candidate "/")]
     (org.joshd.history/observe-submission candidate haiku-p)
     (info (str "HC: " (into [] syllables) ": " candidate))
-    (html [:div {:align "center"}
+    (html-document "Haiku or Not?"
+	  [:div {:align "center"}
 	   [:p "You wrote:" [:blockquote [:pre candidate]] "and Haikubot says:"]
 	   (if haiku-p
 	     [:div {:style "color:green;font-size:200%;font-weight:bold"} [:h1 "It's a haiku."]]
@@ -65,7 +72,8 @@
 
 (defn haiku-entry-form
   []
-  (html [:div {:align "center"}
+  (html-document "Haiku or Not?"
+        [:div {:align "center"}
 	 [:h1 "Am I haiku or not?"]
 	 [:form {:action "/count" :method "POST"}
 	  [:input {:type "text" :name "candidate" :width 500 :size 100
@@ -83,7 +91,7 @@
   (GET "/foo*" (html [:h1 "FOOOOOOOOOOOOO"]))
   (GET "/about*" (about params))
   (GET "/" (haiku-entry-form))
-  (POST "/count" (generate-report-for params))
+  (POST "/count" (generate-report-page params))
   (ANY "*" (html [:h1 "Visualize org.joshd.HaikuWeb in 5-7-5."]))
 )
 
