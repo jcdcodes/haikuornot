@@ -1,4 +1,5 @@
 (ns org.joshd.syllables
+  (:use clojure.contrib.logging)
   (:import
    (java.io BufferedReader StringReader)
    (org.joshd Stemmer)
@@ -17,8 +18,10 @@
 
 (defn- count-syllables-in-line
   [line]
-  (let [digits (re-pattern "[0-9]")]
-    (.size (re-seq digits line))))
+  (let [digits (re-pattern "[0-9]")
+	result (.size (re-seq digits line))]
+    ;(info (str line ": " result))
+    result))
 
 (defn- word-in-line
   [line]
@@ -49,7 +52,7 @@
 (def *syllables-for* {})
 (defn get-syllables-for
   [text]
-  (if (nil? *syllables-for*)
+  (if (empty? *syllables-for*)
     (do
       (def *syllables-for* (let
         [cmudict (slurp "src/main/resources/org/joshd/cmudict.0.7a.txt")
@@ -60,7 +63,7 @@
       (def *syllables-for* (into *syllables-for* (map #(let [k % v 1] [k v]) letters)))
       (def *syllables-for* (into *syllables-for* [["W" 3]]))
       (def *syllables-for* (into *syllables-for* [[" " 0] ["" 0]]))
-      (println "got syllables")))
+      (info "GOT SYLLABLES")))
   (*syllables-for* text))
 
 (defn to-cv

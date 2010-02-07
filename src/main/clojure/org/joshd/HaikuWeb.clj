@@ -2,6 +2,7 @@
   (:use compojure)
   (:use org.joshd.syllables)
   (:use org.joshd.history)
+  (:use org.joshd.css)
   (:use clojure.contrib.logging)
   (:gen-class
    :extends javax.servlet.http.HttpServlet))
@@ -17,7 +18,7 @@
 (defn html-document
   [title & body]
   (html [:head [:title title]
-	 [:style "div { border: 1px dotted red; } p { border: 1px solid pink;} h1 { border: 1px dashed blue; } h3 {border: 1px dashed green; }"]]
+	 [:style (org.joshd.css/style)]]
 	[:body body]))
 
 (defn generate-report-page
@@ -32,8 +33,8 @@
 	  [:div {:align "center"}
 	   [:p "You wrote:" [:blockquote [:pre candidate]] "and Haikubot says:"]
 	   (if haiku-p
-	     [:div {:style "color:green;font-size:200%;font-weight:bold"} [:h1 "It's a haiku."]]
-	     [:div {:style "color:red;background-color:black;font-size:200%;font-weight:bold"} [:h1 "Not a haiku."]])
+	     [:div {:class "success"} [:h1 "It's a haiku."]]
+	     [:div {:class "failure"} [:h1 "Not a haiku."]])
 	   [:table {:cellspacing 1 :cellpadding 5 :border "1px green"}
 	    (map (fn [x] [:tr [:td (first x)] [:td (second x)]])
 		 (map (fn [a b] [a b]) syllables lines))]
@@ -48,8 +49,10 @@
 (defn recent-failures
   []
   (html
-  [:h3 "Recent failure"]
-  (into [:ul] (map (fn [x] [:li [:pre x]]) @org.joshd.history/*recent-failures*))))
+  [:h3 "Recent non-haiku"]
+  (into [:ul]
+	(map (fn [x] [:li [:pre x]])
+	     @org.joshd.history/*recent-failures*))))
 
 (def about [:div [:h3 "What is this?"] 
 
@@ -57,9 +60,8 @@
   even meet the usual 5-7-5 syllable count, so I built the Haikubot,
   which counts (English) syllables and verifies that a piece of text
   has the right 5-7-5 meter.  It led to me learning all about Porter
-  stemmers and syllable counting, and about the " [:a
-  {:href "http://cmusphinx.org"} "CMU Sphinx speech recognition"] "
-  project at Carnegie Mellon."]
+  stemmers and syllable counting, and about " [:a
+  {:href "http://cmusphinx.org"} "speech recognition"] "."]
 
   [:p "Furthermore, I needed a nontrivial project on which to try my
   hand at integrating maven, jetty, clojure, and slime.  So far so
