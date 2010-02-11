@@ -15,11 +15,20 @@
 		  raw-text)))
 
 
+(defn header
+  []
+  (let [now (str (java.util.Date.))]
+    [:div
+     [:div {:class "header"}
+      (str "[Logo here]" " " now " ")]
+     [:div {:class "logo"} [:a {:href "/"} "Am I Haiku or Not?"]]
+     ]))
+
 (defn html-document
   [title & body]
   (html [:head [:title title]
 	 [:style (org.joshd.css/style)]]
-	[:body body]))
+	[:body (header) body]))
 
 (defn generate-report-page
   [params]
@@ -78,7 +87,7 @@
         [:div {:align "center"}
 	 [:h1 "Am I haiku or not?"]
 	 [:form {:action "/count" :method "POST"}
-	  [:input {:type "text" :name "candidate" :width 500 :size 100
+	  [:input {:type "text" :name "candidate" :width "50em" :size 70
 		   :value "type in a haiku/if you get the meter right/i will tell you so"}]
 	  [:br]
 	  [:input {:type "submit" :value "Check haiku-ness"}]]]
@@ -90,11 +99,10 @@
 ;;note: i love my nerd man/even though he is a nerd/he is wicked cute
 
 (defroutes haiku-web
-  (GET "/foo*" (html [:h1 "FOOOOOOOOOOOOO"]))
-  (GET "/about*" (about params))
-  (GET "/" (haiku-entry-form))
+  (GET "/about*" (html-document "About the Haikubot" about))
   (POST "/count" (generate-report-page params))
-  (ANY "*" (html [:h1 "Visualize org.joshd.HaikuWeb in 5-7-5."]))
+  (GET "/" (haiku-entry-form))
+  (ANY "*" (haiku-entry-form)) ;;;(html [:h1 "Visualize org.joshd.HaikuWeb in 5-7-5."]))
 )
 
 (defservice haiku-web)
