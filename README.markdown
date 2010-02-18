@@ -1,7 +1,10 @@
-foo
-===
+haikuornot
+==========
 
-Josh's project whereby he learns how to rig up maven, clojure, compojure, and some hand-rolled code.
+Josh's project whereby he learns how to rig up maven, clojure,
+compojure, and some hand-rolled code.
+
+It incidentally tells you whether it's been fed a haiku or not.
 
 This is a clojure project that's the result of running:
 
@@ -13,27 +16,9 @@ This is a clojure project that's the result of running:
 
 on a command line; then tweaking a number of the files within.
 
-So far I've verified that `mvn clean install` downloads stuff and
-successfully (pyhrrically) runs tests (Running `mvn clojure:test` also
-works) and `mvn clojure:run` runs app.clj and then exits.  Good times.
+Running `mvn clean package` downloads stuff and successfully
+(pyhrrically) runs tests (Running `mvn clojure:test` also works;
+another empty victory) and `mvn clojure:run` runs the webapp.
 
-It's a template project
------------------------
+Good times.
 
-This is a hello world clojure project.  I'll test it out by trying to
-do some kind of nontrivial web app, and will probably modify it in place accordingly, but know that it's a decent template project as of the second checkin.
-
-It runs compojure on jetty
---------------------------
-
-I followed the [hello-mvn-clj][] example and played around a bit from there.  I got to the point of configuring the `mvn-jetty-plugin` to my contentment, including setting the default context-path to `/` and setting up a decent HTTP log.
-
-To start the webapp do this:
-
-`mvn jetty:run`
-
-At some point we'll do smoething
-
-
-
-[hello-mvn-clj]: http://bitbucket.org/jimdowning/hello-mvn-clj
