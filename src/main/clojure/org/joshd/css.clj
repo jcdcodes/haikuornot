@@ -1,11 +1,11 @@
 (ns org.joshd.css)
 
+;(defn style [] "")
 (defn style
   [] (apply str (map #(if (not (= (str %) "\n")) % " ") (.trim "
-div {
-  border: 1px solid yellow;
+body {
+ font-family:\"Gill Sans\",helvetica,arial,sans-serif;
 }
-
 div.header
 {
  text-align:center;
@@ -20,8 +20,7 @@ div.logo
 
 div.failure
 {
- color:red;
- background-color:black;
+ color:darkRed;
  font-size:200%;
  font-weight:bold;
 }
@@ -32,26 +31,4 @@ div.success
   font-size:200%;
   font-weight:bold;
 }
-
-p
-{
-  border: 1px dotted pink;
-}
-
-h1
-{
-  border: 1px dotted blue;
-}
-
-h3
-{
-  border: 1px dotted green;
-}
-
-ul
-{
- border: 1px dotted yellow;
-}
-
-"))
-))
+"))))
