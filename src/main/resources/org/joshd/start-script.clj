@@ -5,7 +5,7 @@
 (use 'swank.swank)
 (println "Swank is loaded.")
 (print "Starting swank...")
-(swank.swank/start-server "/dev/null" :port 4005)
+(swank.swank/start-server "/dev/null" :port 4005 :host "127.0.0.1")
 (println "Swank is started.")
 
 (println)
