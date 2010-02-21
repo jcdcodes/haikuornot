@@ -54,7 +54,7 @@
 	     [:p "Nicely done."]
 	     [:p "You want 5 syllables, then 7, then 5&#8212;not the "
 	      (doall (str-join ", then " syllables)) " above."])
-	   [:p {:style "font-size:150%"} [:a {:href "/"} "Try another"]]])))
+	   [:p {:style "font-size:150%"} [:a {:href "/haiku"} "Try another"]]])))
 
 (defn recent-successes
   []
@@ -93,7 +93,7 @@
   []
   (html-document "Haiku or Not?"
         [:div
-	 [:form {:action "/count" :method "POST"}
+	 [:form {:action "/haiku/count" :method "POST"}
 	  [:input {:type "text" :name "candidate" :width "50em" :size 70
 		   :value "type in a haiku/if you get the meter right/i will tell you so"}]
 	  [:input {:type "submit" :value "Check haiku-ness"}]]]
@@ -105,10 +105,10 @@
 ;;note: i love my nerd man/even though he is a nerd/he is wicked cute
 
 (defroutes haiku-web
-  (GET "/about*" (html-document "About the Haikubot" about))
-  (POST "/count" (generate-report-page params))
-  (GET "/" (haiku-entry-form))
-  (ANY "*" (haiku-entry-form)) ;;;(html [:h1 "Visualize org.joshd.HaikuWeb in 5-7-5."]))
+  (GET "/haiku/about*" (html-document "About the Haikubot" about))
+  (POST "/haiku/count" (generate-report-page params))
+  (GET "/haiku" (haiku-entry-form))
+  (ANY "*" (page-not-found))
 )
 
 (defservice haiku-web)

@@ -17,7 +17,7 @@
 (use 'org.joshd.HaikuWeb)
 (println "HaikuWeb is loaded")
 (print "Starting compojure (haiku-web)...")
-(defserver server {:port 8080} "/*" (servlet haiku-web))
+(defserver server {:host "127.0.0.1" :port 8080} "/*" (servlet haiku-web))
 (let [request-log-handler (org.mortbay.jetty.handler.RequestLogHandler.)
       log (org.mortbay.jetty.NCSARequestLog.)]
   (.setRequestLog request-log-handler log)
