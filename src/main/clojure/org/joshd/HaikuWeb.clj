@@ -107,8 +107,8 @@
 (defroutes haiku-web
   (GET "/haiku/about*" (html-document "About the Haikubot" about))
   (POST "/haiku/count" (generate-report-page params))
-  (GET "/haiku" (haiku-entry-form))
-  (ANY "*" (page-not-found))
+  (GET "/haiku*" (haiku-entry-form))
+  (ANY "*" (redirect-to "/haiku"))
 )
 
 (defservice haiku-web)
