@@ -28,7 +28,7 @@
 
 (defn html-document
   [title & body]
-  (html [:head [:title title]
+  (html [:head [:title title] [:meta {:name "viewport" :content "width=480"}]
 	 [:style (org.joshd.css/style)]]
 	[:body (header) body]))
 
