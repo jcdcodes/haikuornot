@@ -12,7 +12,10 @@ Two and a half approaches
 -------------------------
 
 The first way it counts syllables is by looking up the answer in a big
-file from the [CMUSphinx][2] project.
+file from the [CMUSphinx][2] project.  ([Haikufinder][10] is a project that does something very
+similar in Python.  There may be others out there.)
+
+[10]: http://mrfeinberg.com/haikufinder/
 
 The second-and-a-half way is by counting vowel runs and using a
 [Porter stemmer][1].  The Porter stemmer is a thirty-year-old
