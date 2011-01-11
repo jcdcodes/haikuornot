@@ -6,7 +6,7 @@ haiku.  I mean haiku in the "5-7-5 syllables" sense that
 English-speaking computer programmers mean, not in the proper sense
 that literate Japanese mean.
 
-If you run an internet haiku contest please consider vetting the entries against this webapp or something like it[1].
+If you run an internet haiku contest please consider vetting the entries against this webapp or something like it(1).
 
 Two and a half approaches
 -------------------------
@@ -67,5 +67,5 @@ License
 I used Dr. Porter's stemmer code, which is in the public domain, so all of this is, too.  Drop me a line if you do anything interesting with it.
 
 
-[1] I actually wrote this because there was this one week during which Daring Fireball and boingboing both featured clever little haikus that weren't even 5-7-5 (and definitely weren't Japanese-style poetry).
+(1) I actually wrote this because there was this one week during which Daring Fireball and boingboing both featured clever little haikus that weren't even 5-7-5 (and definitely weren't Japanese-style poetry).
 
