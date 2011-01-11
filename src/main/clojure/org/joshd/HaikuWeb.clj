@@ -91,7 +91,8 @@
   Clojure \"Getting Started\" page"] " if I had to start again."]
 
   [:p "You are certain to find errors.  Let me know: "
-   [:a {:href "mailto:daghlian@gmail.com"} "daghlian@gmail.com"]]
+   [:a {:href "mailto:daghlian@gmail.com"} "daghlian@gmail.com"]
+   ". Also, the code is " [:a {:href "http://github.com/jcdcodes/haikuornot"} "here"] "."]
 
   [:h3 "But that's not what haiku " [:em "really"] " is!"]
 
