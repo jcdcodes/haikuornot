@@ -73,19 +73,31 @@
 (def about [:div [:h3 "What is this?"] 
 
   [:p "I got tired of reading online haiku contest entries that didn't
-  even meet the usual 5-7-5 syllable count, so I built the Haikubot,
-  which counts (English) syllables and verifies that a piece of text
-  has the right 5-7-5 meter.  It led to me learning all about " [:a
+  even meet the usual 5-7-5 syllable count (I am not a "
+   [:a {:href "http://blogs.law.harvard.edu/ethicalesq/is-it-or-aint-it-haiku/"}
+    "purist"]
+  "), so I built the Haikubot, which counts (English) syllables and
+  verifies that a piece of text has the right 5-7-5 meter.  It led to
+  me learning all about " [:a
   {:href "http://tartarus.org/~martin/PorterStemmer/"} "Porter
   stemmers"] " and syllable counting, and about " [:a
   {:href "http://cmusphinx.org"} "speech recognition"] "."]
 
   [:p "It's built on " [:a {:href "http://clojure.org"} "clojure"] "
   and " [:a {:href "http://compojure.org"} "compojure"] ".  Way more
-  fun than the raw Java I use industrially. So far so good."]
+  fun than the raw Java I use industrially. So far so good, although I
+  would have used the tutorials at " [:a
+  {:href "http://www.assembla.com/wiki/show/clojure/Getting_Started"} "the
+  Clojure \"Getting Started\" page"] " if I had to start again."]
 
   [:p "You are certain to find errors.  Let me know: "
    [:a {:href "mailto:daghlian@gmail.com"} "daghlian@gmail.com"]]
+
+  [:h3 "But that's not what haiku " [:em "really"] " is!"]
+
+  [:p "You are a purist.  " [:a
+  {:href "http://blogs.law.harvard.edu/ethicalesq/is-it-or-aint-it-haiku/"} "I
+  have read this page linked here."] "  Good enough for me."]
 
 ])
 

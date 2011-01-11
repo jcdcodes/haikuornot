@@ -4,13 +4,17 @@
 (defn style
   [] (apply str (map #(if (not (= (str %) "\n")) % " ") (.trim "
 body {
- font-family:\"Gill Sans\",helvetica,arial,sans-serif;
+ font-family:\"Gill Sans\",\"Trebuchet MS\",helvetica,arial,sans-serif;
 }
 div.header
 {
  text-align:center;
  font-size:75%;
  float:left;
+}
+
+h1 {
+ font-size:250%;
 }
 
 div.logo
