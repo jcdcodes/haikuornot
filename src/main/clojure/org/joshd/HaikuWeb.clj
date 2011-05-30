@@ -24,6 +24,7 @@
       ;(str "[Logo here]" " " now " ")
       ]
      [:h1 "Am I haiku or not?"]
+     [:h2 "Checks for the right 5-7-5 meter."]
      ]))
 
 (defn html-document
@@ -110,6 +111,7 @@
 	  [:input {:type "text" :name "candidate" :width "50em" :size 70
 		   :value "type in a haiku/if you get the meter right/i will tell you so"}]
 	  [:input {:type "submit" :value "Check haiku-ness"}]]]
+	
 	(recent-successes)
 	about
 	;(recent-failures)
